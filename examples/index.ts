@@ -25,7 +25,6 @@ function resetGba() {
   gba = new GameBoyAdvance()
   gba.logLevel = gba.LOG_ERROR;
 
-  gba.setBios(toArrayBuffer(bios))
   gba.setCanvas(canvas)
 
   gba.loadRom(rom)
@@ -111,7 +110,7 @@ render(SCREEN_PATH)
 setInterval(() => {
   gba.keypad.press(gba.keypad['A'])
   render(SCREEN_PATH)
-}, 200)
+}, 1000)
 
 setTimeout(async () => {
   await createBackup(BACKUP_PATH)

@@ -8,6 +8,8 @@ import { GameBoyAdvanceKeypad } from './keypad'
 import { GameBoyAdvanceSIO } from './sio'
 import * as fs from 'fs'
 import { Canvas, SKRSContext2D, createCanvas } from "@napi-rs/canvas";
+import { toArrayBuffer } from './util'
+import * as path from 'path';
 
 export class GameBoyAdvance {
   LOG_ERROR = 1;
@@ -48,7 +50,7 @@ export class GameBoyAdvance {
   context: SKRSContext2D
   interval: number
 
-	constructor() {
+	constructor(bios?: Buffer) {
 
 		// TODO: simplify this graph
 		this.cpu.mmu = this.mmu;
@@ -106,6 +108,8 @@ export class GameBoyAdvance {
 		this.video.vblankCallback = function () {
 			self.seenFrame = true;
 		};
+
+    this.setBios(bios)
 	}
 	setCanvas(canvas: Canvas) {
 		// if (canvas.offsetWidth != 240 || canvas.offsetHeight != 160) {
@@ -135,9 +139,12 @@ export class GameBoyAdvance {
 		this.context = canvas.getContext("2d");
 		this.video.setBacking(this.context);
 	}
-	setBios(bios, real?) {
-		this.mmu.loadBios(bios, real);
-	}
+  setBios(bios: Buffer, real?) {
+    this.mmu.loadBios(
+      toArrayBuffer(bios ?? fs.readFileSync(path.join(__dirname, 'assets', 'bios.bin'))),
+      real
+    );
+  }
 	setRom(rom) {
 		this.reset();
 

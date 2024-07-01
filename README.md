@@ -15,7 +15,7 @@ This port is motivated by the fact that I was unable to find an easy way to impl
 - [ ] Typing everything
 - [ ] Replace every var by ES6 let/const
 - [ ] Setup test (+ test rom)
-- [ ] Add a default bios
+- [x] Add a default bios
 - [ ] Create an interface for an easier usage
 - [ ] Fix workers for node
 - [ ] Frame by frame advance

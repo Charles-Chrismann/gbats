@@ -291,3 +291,7 @@ export class Serializer {
 		reader.readAsDataURL(blob);
 	}
 }
+
+export function toArrayBuffer(buffer: Buffer) {
+  return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+}

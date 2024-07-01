@@ -7,20 +7,22 @@
   "module": "lib/es6/index.js",
   "scripts": {
     "clean": "rimraf ./lib",
-    "build": "npm run clean && tsc && tsc --build tsconfig.es5.json",
+    "build": "npm run clean && tsc && tsc --build tsconfig.es5.json && npm run postbuild",
+    "postbuild": "copyfiles -u 1 src/assets/* lib/es5 && copyfiles src/assets/* -u 1 lib/es6",
     "example": "nodemon ./examples/index.ts"
   },
   "files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
+    "lib/",
+    "package.json",
+    "LICENSE.md",
+    "README.md"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.14.9",
+    "copyfiles": "^2.4.1",
     "nodemon": "^3.1.4",
     "rimraf": "^5.0.7",
     "ts-node": "^10.9.2",
