@@ -9,7 +9,8 @@
     "clean": "rimraf ./lib",
     "build": "npm run clean && tsc && tsc --build tsconfig.es5.json && npm run postbuild",
     "postbuild": "copyfiles -u 1 src/assets/* lib/es5 && copyfiles src/assets/* -u 1 lib/es6",
-    "example": "nodemon ./examples/index.ts"
+    "example:wrapper": "nodemon ./examples/wrapper.ts",
+    "example:pure-gba": "nodemon ./examples/pure-gba.ts"
   },
   "files": [
     "lib/",
