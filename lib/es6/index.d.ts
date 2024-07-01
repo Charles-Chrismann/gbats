@@ -1,0 +1,1 @@
+export { GameBoyAdvance } from './gba';

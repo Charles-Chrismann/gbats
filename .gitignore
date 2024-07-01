@@ -1,0 +1,8 @@
+node_modules
+dist/lib
+
+examples/assets/*
+!examples/assets/.gitkeep
+!examples/assets/bios.bin
+
+package-lock.json
