@@ -1,6 +1,6 @@
 {
   "name": "gbats",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "types": "lib/es6/index.d.ts",
   "main": "lib/es5/index.js",
@@ -19,7 +19,7 @@
     "README.md"
   ],
   "keywords": [],
-  "author": "",
+  "author": "charles-chrismann",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.14.9",

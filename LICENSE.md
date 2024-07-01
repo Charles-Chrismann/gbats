@@ -1,6 +1,9 @@
 Copyright © 2012, Jeffrey Pfau
+
 Copyright © 2020, Andrew Chase
+
 Copyright © 2024, Charles Chrismann
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
