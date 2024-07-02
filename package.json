@@ -1,7 +1,7 @@
 {
   "name": "gbats",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.2",
+  "description": "A GameBoy Advance emulator",
   "types": "lib/es6/index.d.ts",
   "main": "lib/es5/index.js",
   "module": "lib/es6/index.js",
@@ -12,15 +12,26 @@
     "example:wrapper": "nodemon ./examples/wrapper.ts",
     "example:pure-gba": "nodemon ./examples/pure-gba.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Charles-Chrismann/gbats"
+  },
   "files": [
     "lib/",
     "package.json",
     "LICENSE.md",
     "README.md"
   ],
-  "keywords": [],
+  "keywords": [
+    "gbats",
+    "gba",
+    "gameboy",
+    "advance",
+    "emulator",
+    "typescript"
+  ],
   "author": "charles-chrismann",
-  "license": "ISC",
+  "license": "BSD-2-Clause",
   "devDependencies": {
     "@types/node": "^20.14.9",
     "copyfiles": "^2.4.1",
