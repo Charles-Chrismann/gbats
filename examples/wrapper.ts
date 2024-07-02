@@ -1,8 +1,8 @@
 import { Wrapper } from '../src'
 import fs from 'fs'
 
-const BACKUP_PATH = "./examples/assets/backup.txt"
-const rom = fs.readFileSync("./examples/assets/PS.gba")
+const BACKUP_PATH = "./assets/backup.txt"
+const rom = fs.readFileSync("./assets/PS.gba")
 
 const wrapper = new Wrapper({rom})
 
@@ -10,7 +10,7 @@ setInterval(async () => {
 
   // Create and save the current frame
   const screenImageBuffer = await wrapper.screen()
-  fs.writeFileSync("./examples/assets/frame.webp", screenImageBuffer)
+  fs.writeFileSync("./assets/frame.webp", screenImageBuffer)
 
   // Press the A button
   wrapper.press('A')

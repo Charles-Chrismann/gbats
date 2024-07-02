@@ -46,6 +46,6 @@ Both ways are described in the /examples folder
 - [ ] Setup test (+ test rom)
 - [x] Add a default bios
 - [x] Create an interface for an easier usage
-- [ ] Update the iterface to allow saving savestate by providing file path
+- [x] Update the iterface to allow saving savestate by providing file path
 - [ ] Fix workers for node
 - [ ] Frame by frame advance

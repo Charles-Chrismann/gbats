@@ -9,10 +9,10 @@ import {
 import fs from 'fs'
 import {  } from '../src/util'
 
-const BACKUP_PATH = "./examples/assets/backup.txt"
-const SCREEN_PATH = "./examples/assets/frame.webp"
+const BACKUP_PATH = "./assets/backup.txt"
+const SCREEN_PATH = "./assets/frame.webp"
 
-const rom = fs.readFileSync("./examples/assets/PS.gba")
+const rom = fs.readFileSync("./assets/PS.gba")
 let canvas = createCanvas(240, 160)
 
 function resetGba() {

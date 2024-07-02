@@ -1,5 +1,6 @@
 node_modules
 lib
+dev
 
 examples/assets/*
 !examples/assets/.gitkeep

@@ -1,6 +1,7 @@
 import { Canvas, createCanvas } from "@napi-rs/canvas";
 import { GameBoyAdvance } from "./gba";
 import { Pointer, Serializer, dataURItoBlob, encode } from "./util";
+import * as fs from 'fs'
 
 export default class Wrapper {
   emulator: GameBoyAdvance
@@ -28,7 +29,7 @@ export default class Wrapper {
     this.emulator.runStable()
   }
 
-  async createSaveState() {
+  async createSaveState(file_path?: string) {
     this.emulator.pause()
     const freeze = this.emulator.freeze() as any
 
@@ -37,13 +38,21 @@ export default class Wrapper {
 
     this.emulator.runStable()
 
+    if(file_path) await fs.promises.writeFile(file_path, data)
+
     return data
   }
 
-  async loadSaveState(backup: Buffer) {
+  async loadSaveState(backupOrFilePath: Buffer | string) {
     this.resetEmulator()
-  
-    const state = await dataURItoBlob(backup.toString()).arrayBuffer()
+    
+
+    let state: ArrayBuffer
+    if(typeof backupOrFilePath === "string") {
+      const buffer = await fs.promises.readFile(backupOrFilePath)
+      state = await dataURItoBlob(buffer.toString()).arrayBuffer()
+    } else state = await dataURItoBlob(backupOrFilePath.toString()).arrayBuffer()
+
     const out = Serializer.deserealizeStream(new DataView(state), new Pointer())
     this.emulator.pause()
     this.emulator.defrost(out)
