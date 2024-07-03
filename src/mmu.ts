@@ -457,7 +457,7 @@ export class GameBoyAdvanceMMU {
 		this.memory[this.REGION_WORKING_RAM].replaceData(frost.ram);
 		this.memory[this.REGION_WORKING_IRAM].replaceData(frost.iram);
 	}
-	loadBios(bios, real) {
+	loadBios(bios: ArrayBuffer, real) {
 		this.bios = new BIOSView(bios);
 		this.bios.real = !!real;
 	}

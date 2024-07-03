@@ -1,15 +1,17 @@
-import { Wrapper } from '../src'
+import { Wrapper } from '../../src'
 import fs from 'fs'
+import { createCanvas } from '@napi-rs/canvas'
 
 const BACKUP_PATH = "./assets/backup.txt"
-const rom = fs.readFileSync("./assets/PS.gba")
+const rom = fs.readFileSync("./assets/rom.gba")
+const canvas = createCanvas(240, 160)
 
-const wrapper = new Wrapper({rom})
+const wrapper = new Wrapper({rom, canvas})
 
 setInterval(async () => {
 
   // Create and save the current frame
-  const screenImageBuffer = await wrapper.screen()
+  const screenImageBuffer = wrapper.screenSync()
   fs.writeFileSync("./assets/frame.webp", screenImageBuffer)
 
   // Press the A button

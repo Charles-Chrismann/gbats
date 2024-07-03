@@ -152,6 +152,10 @@ export class GameBoyAdvanceVideo {
 
 		this.renderPath.setBacking(pixelData);
 	}
+  removeBacking() {
+    this.context = null
+    this.renderPath.removeBacking();
+  }
 	updateTimers(cpu) {
 		var cycles = cpu.cycles;
 

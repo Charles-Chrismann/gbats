@@ -15,16 +15,27 @@ The package provides 2 ways to interact with the emulator, but both of them allo
 The first and the fastest is using the Wrapper class
 
 ```ts
+import * as fs from 'fs'
+import { createCanvas } from '@napi-rs/canvas' // node only
 import { Wrapper } from 'gbats'
 const rom = fs.readFileSync("path_to_the_rom")
 
+// any CanvasLikeElement works for node, but preffer Canvas from the @napi-rs/canvas package
+let canvas = createCanvas(240, 160) // node
+let canvas = document.querySelector('canvas') // browser
+
+
 // the function is async only to allow save and load
 async function main() {
-  const wrapper = new Wrapper({rom})
+  const wrapper = new Wrapper({rom, canvas})
+  
+  wrapper.screenImageFormat = 'jpeg' // possible value: 'webp', 'jpeg', 'png', 'avif'. Default is 'webp'
 
   wrapper.press("A") // press A button
 
-  const screenImageBuffer = await wrapper.screen() // webp image buffer
+  const screenPixels = wrapper.getPixels() // an array of the rgba colors of the screen
+
+  const screenImageBuffer = wrapper.screenSync() // webp image buffer
 
   const saveState = await wrapper.createSaveState() // save state can be saved safely in a file
   await wrapper.loadSaveState(saveState)
@@ -39,6 +50,8 @@ The second way is to use directly the GameBoyAdvance class.
 
 Both ways are described in the /examples folder
 
+For now, the emulator advances each frame automatically, no need to call any methode to advance a frame.
+
 ## TODO
 
 - [ ] Typing everything
@@ -49,3 +62,5 @@ Both ways are described in the /examples folder
 - [x] Update the iterface to allow saving savestate by providing file path
 - [ ] Fix workers for node
 - [ ] Frame by frame advance
+- [ ] proide a way to setup a custom screen rendering method
+- [ ] ugrade SoftwareRender.freeze

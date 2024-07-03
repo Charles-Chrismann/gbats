@@ -7,9 +7,8 @@ import { GameBoyAdvanceVideo } from './video'
 import { GameBoyAdvanceKeypad } from './keypad'
 import { GameBoyAdvanceSIO } from './sio'
 import * as fs from 'fs'
-import { Canvas, SKRSContext2D, createCanvas } from "@napi-rs/canvas";
 import { toArrayBuffer } from './util'
-import * as path from 'path';
+import bios from './assets/bios'
 
 export class GameBoyAdvance {
   LOG_ERROR = 1;
@@ -44,13 +43,13 @@ export class GameBoyAdvance {
   throttle: number
   queueFrame: Function
 
-  indirectCanvas: Canvas
-  targetCanvas: Canvas
+  indirectCanvas: any
+  targetCanvas: any
   drawCallback: Function
-  context: SKRSContext2D
+  context: any
   interval: number
 
-	constructor(bios?: Buffer) {
+	constructor(bios?: ArrayBuffer) {
 
 		// TODO: simplify this graph
 		this.cpu.mmu = this.mmu;
@@ -111,7 +110,7 @@ export class GameBoyAdvance {
 
     this.setBios(bios)
 	}
-	setCanvas(canvas: Canvas) {
+	setCanvas(canvas: any) {
 		// if (canvas.offsetWidth != 240 || canvas.offsetHeight != 160) {
 		// 	var self = this;
 		// 	this.indirectCanvas = createCanvas(240, 160);
@@ -135,13 +134,24 @@ export class GameBoyAdvance {
 		var self = this;
     // this.setCanvasDirect(canvas);
 	}
+  removeCanvas() {
+    this.context = null
+    this.video.removeBacking()
+  }
 	setCanvasDirect(canvas) {
 		this.context = canvas.getContext("2d");
 		this.video.setBacking(this.context);
 	}
-  setBios(bios: Buffer, real?) {
-    this.mmu.loadBios(
-      toArrayBuffer(bios ?? fs.readFileSync(path.join(__dirname, 'assets', 'bios.bin'))),
+  setBios(customBios?: ArrayBuffer, real?) {
+    if(customBios) {
+      this.mmu.loadBios(
+        customBios instanceof ArrayBuffer ? 
+        customBios :
+        toArrayBuffer(customBios),
+        real
+      );
+    } else this.mmu.loadBios(
+      bios,
       real
     );
   }
@@ -167,8 +177,8 @@ export class GameBoyAdvance {
       callback(result ? null : new Error('Invalid ROM'), result);
     }
 	}
-  loadRom(rom) {
-    const arrBuffer = rom.buffer.slice(rom.byteOffset, rom.byteOffset + rom.byteLength)
+  loadRom(rom: Buffer | ArrayBuffer) {
+    const arrBuffer = rom instanceof ArrayBuffer ? rom : rom.buffer.slice(rom.byteOffset, rom.byteOffset + rom.byteLength)
     const result = this.setRom(arrBuffer);
   }
 	reset() {

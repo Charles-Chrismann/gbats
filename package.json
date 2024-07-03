@@ -8,10 +8,9 @@
   "scripts": {
     "dev": "cd dev && nodemon ./wrapper.ts",
     "clean": "rimraf ./lib",
-    "build": "npm run clean && tsc && tsc --build tsconfig.es5.json && npm run postbuild",
-    "postbuild": "copyfiles -u 1 src/assets/* lib/es5 && copyfiles src/assets/* -u 1 lib/es6",
-    "example:wrapper": "cd examples && nodemon ./wrapper.ts",
-    "example:pure-gba": "cd examples && nodemon ./pure-gba.ts"
+    "build": "npm run clean && tsc && tsc --build tsconfig.es5.json",
+    "example:browser": "cd examples/browser && npm run dev",
+    "example:node": "cd examples/node && nodemon ./wrapper.ts"
   },
   "repository": {
     "type": "git",
@@ -40,8 +39,5 @@
     "rimraf": "^5.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2"
-  },
-  "dependencies": {
-    "@napi-rs/canvas": "^0.1.53"
   }
 }

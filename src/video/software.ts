@@ -1049,6 +1049,9 @@ export class GameBoyAdvanceSoftwareRenderer {
 			this.pixelData.data[offset++] = 0xFF;
 		}
 	}
+  removeBacking() {
+    this.pixelData = null
+  }
 	writeDisplayControl(value) {
 		this.backgroundMode = value & 0x0007;
 		this.displayFrameSelect = value & 0x0010;
@@ -1732,6 +1735,7 @@ export class GameBoyAdvanceSoftwareRenderer {
 		this.finishScanline(backing);
 	}
 	finishScanline(backing) {
+    if(!this.pixelData) return
 		var color;
 		var bd = this.palette.accessColor(this.LAYER_BACKDROP, 0);
 		var xx = this.vcount * this.HORIZONTAL_PIXELS * 4;
@@ -1757,6 +1761,7 @@ export class GameBoyAdvanceSoftwareRenderer {
 		// Nothing to do
 	}
 	finishDraw(caller) {
+    if(!this.pixelData) return
 		this.bg[2].sx = this.bg[2].refx;
 		this.bg[2].sy = this.bg[2].refy;
 		this.bg[3].sx = this.bg[3].refx;

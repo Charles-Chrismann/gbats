@@ -2,8 +2,10 @@ node_modules
 lib
 dev
 
-examples/assets/*
-!examples/assets/.gitkeep
-!examples/assets/bios.bin
+examples/node/assets/*
+!examples/node/assets/.gitkeep
+
+examples/browser/public/*
+!examples/browser/public/vite.svg
 
 package-lock.json
