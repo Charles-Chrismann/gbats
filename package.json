@@ -1,6 +1,6 @@
 {
   "name": "gbats",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A GameBoy Advance emulator",
   "types": "lib/es6/index.d.ts",
   "main": "lib/es5/index.js",
