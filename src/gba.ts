@@ -48,8 +48,10 @@ export class GameBoyAdvance {
   drawCallback: Function
   context: any
   interval: number
+  updateMethod: 'auto' | 'manual'
 
-	constructor(bios?: ArrayBuffer) {
+	constructor(bios?: ArrayBuffer, updateMethod: 'auto' | 'manual' = 'auto') {
+    this.updateMethod = updateMethod
 
 		// TODO: simplify this graph
 		this.cpu.mmu = this.mmu;
@@ -211,12 +213,14 @@ export class GameBoyAdvance {
 		return !seen;
 	}
 	pause() {
+    if(this.paused) return
 		this.paused = true;
 		this.audio.pause(true);
 		if (this.queue) {
 			clearTimeout(this.queue);
 			this.queue = null;
 		}
+    // this.keypad.clearInputTimeoutIds()
 	}
 	advanceFrame() {
     this.step();
@@ -392,21 +396,25 @@ export class GameBoyAdvance {
 	}
 	freeze() {
 		return {
+      updateMethod: this.updateMethod,
 			cpu: this.cpu.freeze(),
 			mmu: this.mmu.freeze(),
 			irq: this.irq.freeze(),
 			io: this.io.freeze(),
 			audio: this.audio.freeze(),
-			video: this.video.freeze()
+			video: this.video.freeze(),
+      keypad: this.keypad.freeze(this.updateMethod)
 		};
 	}
 	defrost(frost) {
+    this.updateMethod = frost.updateMethod
 		this.cpu.defrost(frost.cpu);
 		this.mmu.defrost(frost.mmu);
 		this.audio.defrost(frost.audio);
 		this.video.defrost(frost.video);
 		this.irq.defrost(frost.irq);
 		this.io.defrost(frost.io);
+    if(this.updateMethod === 'manual') this.keypad.defrost(frost.keypad)
 	}
 	log(level, message) {}
 	setLogger(logger) {

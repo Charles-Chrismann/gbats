@@ -10,7 +10,8 @@
     "clean": "rimraf ./lib",
     "build": "npm run clean && tsc && tsc --build tsconfig.es5.json",
     "example:browser": "cd examples/browser && npm run dev",
-    "example:node": "cd examples/node && nodemon ./wrapper.ts"
+    "example:node": "cd examples/node && nodemon ./wrapper.ts",
+    "example:socket.io": "concurrently \"cd examples/socket.io/server && nodemon ./index.ts\" \"cd examples/socket.io/client && npm run dev\""
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "@types/node": "^20.14.9",
+    "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
     "nodemon": "^3.1.4",
     "rimraf": "^5.0.7",

@@ -45,6 +45,8 @@ export class GameBoyAdvanceKeypad {
 	gamepads: any[]
 
 	remappingKeyId: string
+  inputTimeoutIds: NodeJS.Timeout[] = []
+  nextFramesInputs: {key: number, frameCount: number}[] = []
 
 	constructor() {
 		this.KEYCODE_LEFT = 37;
@@ -91,18 +93,52 @@ export class GameBoyAdvanceKeypad {
 		this.remappingKeyId = "";
 	}
 
-  press(key, time?) {
-    time = time || this.PRESS_TIME;
-    var toggle = key;
-    var self = this;
-  
-    toggle = 1 << toggle;
-    this.currentDown &= ~toggle;
-  
-    setTimeout(function () {
-      self.currentDown |= toggle;
-    }, time);
+  press(key, time?: number) {
+    if(this.core.updateMethod === 'auto') {
+      time = time || this.PRESS_TIME;
+      var toggle = key;
+      var self = this;
+    
+      toggle = 1 << toggle;
+      this.currentDown &= ~toggle;
+    
+      const timeoutId = setTimeout(() => {
+        this.currentDown |= toggle;
+        this.inputTimeoutIds = this.inputTimeoutIds.filter(timeout => timeout !== timeoutId)
+      }, time)
+      this.inputTimeoutIds.push(timeoutId)
+    } else {
+      const frameCount = time ?? 6
+
+      let toggle: any = key
+      toggle = 1 << toggle;
+      this.currentDown &= ~toggle;
+      
+      let nextInput = this.nextFramesInputs.find(input => input.key === key)
+      if(!nextInput) this.nextFramesInputs.push({key, frameCount})
+      else nextInput.frameCount = Math.max(nextInput.frameCount, frameCount)
+    }
   };
+
+  freeze(updateMethod:  'auto' | 'manual') {
+    if(updateMethod === 'auto') return
+    return this.nextFramesInputs
+  }
+
+  defrost(nextFramesInputs: string | Record<number, {key: number, frameCount: number}>) {
+    if(!nextFramesInputs) return
+    this.nextFramesInputs = typeof nextFramesInputs === 'string' ? JSON.parse(nextFramesInputs) : Object.values(nextFramesInputs)
+    for(const input of this.nextFramesInputs) {
+      let toggle: any = input.key
+      toggle = 1 << toggle;
+      this.currentDown &= ~toggle;
+    }
+  }
+
+  clearInputTimeoutIds() {
+    for(const timeoutId of this.inputTimeoutIds) clearTimeout(timeoutId)
+    this.inputTimeoutIds = []
+  }
 
 	keyboardHandler(e) {
 		var toggle = 0;

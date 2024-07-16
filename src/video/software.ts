@@ -1648,6 +1648,7 @@ export class GameBoyAdvanceSoftwareRenderer {
 		}
 	}
 	drawScanline(y) {
+    if(!this.pixelData) return
 		var backing = this.scanline;
 		if (this.forcedBlank) {
 			this.drawScanlineBlank(backing);

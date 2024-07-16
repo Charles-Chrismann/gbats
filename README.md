@@ -8,6 +8,8 @@ This port is motivated by the fact that I was unable to find an easy way to impl
 
 **NOTE**: This package is simply a port of the original package. I do not claim to be able to resolve any issues regarding the functionality of the emulator, as I do not have a computer science degree. However, I can implement functionalities around the emulator itself.
 
+![](./assets/wait.jpg)
+
 ## Usage
 
 The package provides 2 ways to interact with the emulator, but both of them allows you to do the same things:
@@ -64,3 +66,4 @@ For now, the emulator advances each frame automatically, no need to call any met
 - [ ] Frame by frame advance
 - [ ] proide a way to setup a custom screen rendering method
 - [ ] ugrade SoftwareRender.freeze
+- [ ] Press and release input + saving in backup
